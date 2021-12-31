@@ -1,33 +1,27 @@
 import {ProjectObject} from "./projectObject.js";
+import {taskForm} from './toDoNewTaskForm.js';
 
 const toDoObjectFactory = (title, dueDate, priority, details="" ) => {
-    const privatePropertiesObject  = {title, details, dueDate, priority};
-
-
-    const getTitle = () => title;
-    const getDetails = () => details;
-    const getDueDate = () => dueDate;
-    const getPriority = () => priority;
-
+ 
     const getValueFromToDoObject = privatePropertyName => {
         switch(privatePropertyName){
-            case (title):
-              return getTitle();
-            case (dueDate):
-                return getDueDate();
-            case (priority):
-                return getPriority();
-            case (details):
-                return getDetails();
+            case ("title"):
+              return title;
+            case ("dueDate"):
+                return dueDate;
+            case ("priority"):
+                return priority;
+            case ("details"):
+                return details;
             default:
                 return null;
         }
     }
-
-    const showDetailsOfToDoObject = () => {
-        for (const [key, value] of Object.entries(privatePropertiesObject)) {
-            console.log(`${key}: ${value}`);
-    }}
+        
+    // const showDetailsOfToDoObject = () => {
+    //     for (const [key, value] of Object.entries(privatePropertiesObject)) {
+    //         console.log(`${key}: ${value}`);
+    // }}
 
     const setPropertyValueOfToDoObject = (privatePropertyName, newValue) => {
         let oldValue = getValueFromToDoObject(privatePropertyName);
@@ -36,7 +30,7 @@ const toDoObjectFactory = (title, dueDate, priority, details="" ) => {
 
 
     return {getValueFromToDoObject, setPropertyValueOfToDoObject,
-        showDetailsOfToDoObject };
+        };
     
 }
 
