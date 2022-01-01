@@ -3,6 +3,7 @@ import {projectController} from './projectController.js';
 import {taskForm} from './toDoNewTaskForm.js';
 import {ProjectObject} from "./projectObject.js";
 import {toDoObjectDetailsModalBox} from './toDoObjectDetailsModalBox.js';
+import {popupForm} from './popupForm.js'
 
 const toDoDomElementFactory = (toDoObject) => {
     
@@ -32,6 +33,8 @@ const toDoDomElementFactory = (toDoObject) => {
                     toDoObjectDetailsModalBox.showModalBox();
                 }
                 editButton.textContent = "Edit"; //simge eklenecek.
+                editButton.toDoObject = toDoObject;
+                editButton.addEventListener('click', popupForm.createEditToDoTaskDetailsPopup);
                 removeButton.textContent = "Remove"; //simge eklenecek.
                 titleSpan.textContent = toDoObject.getValueFromToDoObject('title');
                 dateSpan.textContent = toDoObject.getValueFromToDoObject('dueDate');

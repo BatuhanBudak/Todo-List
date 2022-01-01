@@ -3,6 +3,7 @@ import {ProjectObject} from "./projectObject.js";
 import {taskForm} from './toDoNewTaskForm.js';
 import {projectController} from './projectController.js';
 import {toDoDomElementFactory} from './createToDoDomElement.js';
+import {popupForm} from './popupForm.js'
 import './style.css';
 
 
@@ -20,23 +21,4 @@ console.log(projectController.getCurrentProject().getTitle());
 
 
 
-function createAndPushNewToDoTask(formdata) {
-    //Bunun form-data eventini ateşlemesi gerekiyor ama kontrol edilmesi lazım.
-   //Data-key ekle?
-  
-  const newToDoObject = toDoObjectFactory(formdata.get('title'),
-       formdata.get('due-date'),
-       formdata.get('priority'),
-       formdata.get('details'));
 
-   let currentProject = projectController.getCurrentProject();
-       
-   currentProject.addToDoObjectToArray(newToDoObject);
-   
-   let newToDoDomElement = toDoDomElementFactory(newToDoObject);
-
-   document.querySelector(".task-area").firstElementChild.appendChild(newToDoDomElement);
-
-   
-}
-export {createAndPushNewToDoTask}

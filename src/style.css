@@ -33,7 +33,7 @@ body {
   max-width: 200px;
 }
 
-.new-task-form-popup{
+.form-container{
   position: fixed; 
   display: none;
   z-index: 1; 
@@ -46,7 +46,7 @@ body {
   background-color: rgba(0,0,0,0.4); 
 }
 
-  #new-task-form-container{
+  #form-popup{
       max-width: 600px;
       background-color: white;
       background-color: #fefefe;
@@ -58,8 +58,8 @@ body {
       font-size: 25px;
   }
   
-      #new-task-form-container input[type=text],
-      #new-task-form-container input[type=number]
+      #form-popup input[type=text],
+      #form-popup input[type=number]
       {
           width: 80%;
           padding: 15px;
@@ -67,15 +67,15 @@ body {
           border: none;
           background: #f1f1f1;
       }
-      #new-task-form-container input[type=checkbox]{ margin: 5px 0 22px 0;}
+      /* #form-popup input[type=checkbox]{ margin: 5px 0 22px 0;} */
       
       /* When the inputs get focus, do something */
-      #new-task-form-container input[type=text]:focus,  #form-container input[type=number]:focus {
+      #form-popup input[type=text]:focus,  #form-popup input[type=number]:focus {
           background-color: #ddd;
           outline: none;
       }
 
-      #new-task-form-container .submit-cancel {
+      #form-popup .submit-cancel {
       background-color: #04AA6D;
       color: white;
       padding: 16px 20px;
@@ -86,8 +86,8 @@ body {
       opacity: 0.8;
       text-align: center;
       }
-      #new-task-form-container #cancel { background-color: red; }
-      #new-task-form-container .submit-cancel:hover, #new-book-button:hover { opacity: 1;}
+      #form-popup #cancel { background-color: red; }
+      #form-popup .submit-cancel:hover, .add-task-button:hover { opacity: 1;}
 
 
 .modal {

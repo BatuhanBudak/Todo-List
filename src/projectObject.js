@@ -7,8 +7,13 @@ const ProjectObject = (title) => {
 
     const getTitle = () => title;
 
+    const getToDoObject = (index) => toDoObjects[index];
+
     const addToDoObjectToArray = objectToAdd => toDoObjects.push(objectToAdd);
     
+    const editToDoObjectsArray = function(index, oldStateToDoObject, newStateToDoObject){
+        toDoObjects.splice(index, oldStateToDoObject, newStateToDoObject);
+    }
 
     const removeToDoObjectFromArray = objectToRemove => {
         let index = findIndexOfToDoObject(objectToRemove);
@@ -23,7 +28,7 @@ const ProjectObject = (title) => {
   
     const showArrayContent = () => toDoObjects.forEach(element => console.log(element.getValueFromToDoObject("title")));
 
-    return {getTitle, addToDoObjectToArray, removeToDoObjectFromArray, showArrayContent, findIndexOfToDoObject};
+    return {getTitle, getToDoObject, addToDoObjectToArray,  removeToDoObjectFromArray, showArrayContent, findIndexOfToDoObject, editToDoObjectsArray};
 
 }
 

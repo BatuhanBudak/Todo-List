@@ -3,40 +3,36 @@ import {ProjectObject} from "./projectObject.js";
 import {projectController} from './projectController.js';
 import {toDoDomElementFactory} from './createToDoDomElement.js';
 import { createAndPushNewToDoTask } from "./index.js";
+import { popupForm } from "./popupForm.js";
 
-const taskForm = (() => {
+const addTaskForm = (() => {
 
-    const formContainer = document.querySelector(".new-task-form-popup");
-    const form = document.querySelector("#new-task-form-container");
+    //Bunları değiştirmem lazım
     const addTaskButton = document.querySelector(".add-task-button");
-    const cancelButton = document.querySelector("#cancel");
+    addTaskButton.onclick = () => popupForm.createPopupFormDomElements();
+    
+    const form = document.querySelector(".form-container");
+    
+function createAndPushNewToDoTask(formdata) {
+   
+  
+  const newToDoObject = toDoObjectFactory(formdata.get('title'),
+       formdata.get('due-date'),
+       formdata.get('priority'),
+       formdata.get('details'));
 
-    addEventListenersToElements();
+   let currentProject = projectController.getCurrentProject();
+       
+   currentProject.addToDoObjectToArray(newToDoObject);
+   
+   let newToDoDomElement = toDoDomElementFactory(newToDoObject);
 
+   document.querySelector(".task-area").firstElementChild.appendChild(newToDoDomElement);
 
-    function addEventListenersToElements() {
-
-        form.addEventListener("submit", createFormData);
-        form.addEventListener("formdata", () => {
-            console.log('formdata fired');
-            formContainer.style.display = "none";
-            form.reset();
-        })
-
-        addTaskButton.onclick = () => formContainer.style.display = "block";
-        cancelButton.onclick = () => formContainer.style.display = "none";
-    }
-
-
-function createFormData(e){
-    if (e.submitter.id === "cancel") return;
-    e.preventDefault();
-    const formdata = new FormData(e.target);
-    createAndPushNewToDoTask(formdata);
+   
 }
-
-
+return {createAndPushNewToDoTask}
 
 })();
 
-export {taskForm};
+export {addTaskForm as taskForm};
