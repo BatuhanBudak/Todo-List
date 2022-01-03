@@ -36,6 +36,8 @@ const toDoDomElementFactory = (toDoObject) => {
                 editButton.toDoObject = toDoObject;
                 editButton.addEventListener('click', popupForm.createEditToDoTaskDetailsPopup);
                 removeButton.textContent = "Remove"; //simge eklenecek.
+                removeButton.toDoObject = toDoObject;
+                removeButton.addEventListener('click', currentProject.removeToDoObjectFromArray);
                 titleSpan.textContent = toDoObject.getValueFromToDoObject('title');
                 dateSpan.textContent = toDoObject.getValueFromToDoObject('dueDate');
             }

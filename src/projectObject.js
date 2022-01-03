@@ -1,5 +1,6 @@
 import {toDoObjectFactory} from "./toDoObject.js"
 import {taskForm} from './toDoNewTaskForm.js';
+import {render} from "./render.js";
 
 const ProjectObject = (title) => {
     
@@ -7,18 +8,22 @@ const ProjectObject = (title) => {
 
     const getTitle = () => title;
 
+    const getAllToDos = () => {
+        return toDoObjects;
+    }
+
     const getToDoObject = (index) => toDoObjects[index];
 
     const addToDoObjectToArray = objectToAdd => toDoObjects.push(objectToAdd);
     
-    const editToDoObjectsArray = function(index, oldStateToDoObject, newStateToDoObject){
-        toDoObjects.splice(index, oldStateToDoObject, newStateToDoObject);
+    const editToDoObjectsArrayWithNewState = function(index, newStateToDoObject){
+        toDoObjects.splice(index, 1, newStateToDoObject);
     }
 
-    const removeToDoObjectFromArray = objectToRemove => {
-        let index = findIndexOfToDoObject(objectToRemove);
+    const removeToDoObjectFromArray = e => {
+        let index = findIndexOfToDoObject(e.target.toDoObject);
         toDoObjects.splice(index,1);
-      
+        render.renderToDoList();
     }
     const findIndexOfToDoObject = (object) => {
        
@@ -26,9 +31,9 @@ const ProjectObject = (title) => {
         
     }
   
-    const showArrayContent = () => toDoObjects.forEach(element => console.log(element.getValueFromToDoObject("title")));
+    const getToDoObjectsArray = () => toDoObjects;
 
-    return {getTitle, getToDoObject, addToDoObjectToArray,  removeToDoObjectFromArray, showArrayContent, findIndexOfToDoObject, editToDoObjectsArray};
+    return {getTitle, getToDoObject, addToDoObjectToArray,  removeToDoObjectFromArray, getToDoObjectsArray: getToDoObjectsArray, findIndexOfToDoObject, editToDoObjectsArray: editToDoObjectsArrayWithNewState, getAllToDos};
 
 }
 

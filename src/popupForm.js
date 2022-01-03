@@ -1,39 +1,18 @@
 import {toDoObjectFactory} from "./toDoObject.js";
 import {taskForm} from './toDoNewTaskForm.js';
 import {editToDoObjectDetailsForm} from './editToDoObjectForm.js';
+import {createProjectsSideBarDomElements} from './createProjecsSieBarDomElements.js';
 
 const popupForm = (()=> {
 
-           function createPopupFormDomElements() {
+           function createPopupFormNewTaskDomElements() {
 
-            if (document.querySelector('.form-container')!== null){
-                document.querySelector('.form-container').remove();
-            }
-
-            const formContainer = document.createElement('div');
-            formContainer.classList.add('form-container');
-
-            const formPopup = document.createElement('form');
-            formPopup.id = 'form-popup';
-
-            const fieldSet = document.createElement("fielset");
-
-            const legend = document.createElement('legend');
-            legend.textContent = 'New Task';
+            const { fieldSet, legend, formPopup, formContainer } = createBoilerPlatePopupForm();
            
 
-            const titleLabel = document.createElement('label');
-            titleLabel.htmlFor = 'name';
-            titleLabel.textContent = 'Title:';
-            titleLabel.style.display = 'block';
+            const titleLabel = createTitleLabelForPopupForm();
 
-            const titleInput = document.createElement('input');
-            titleInput.type = 'text';
-            titleInput.id = 'title';
-            titleInput.name = 'title';
-            titleInput.setAttribute('required', '');
-            titleInput.setAttribute('autofocus', '');
-            titleInput.style.display = 'block'  
+            const titleInput = createTitleInputForPopupForm();  
 
             const duedateLabel = document.createElement('label');
             duedateLabel.htmlFor = 'name';
@@ -84,17 +63,9 @@ const popupForm = (()=> {
             detailsInput.name = 'details';
             detailsInput.style.display = 'block';
 
-            const submitInput = document.createElement('input');
-            submitInput.classList.add('submit-cancel');
-            submitInput.type = 'submit';
-            submitInput.id = 'submit';
-            submitInput.value = 'Submit';
+            const submitInput = createSubmitButtonDomElement();
             
-            const cancelButton = document.createElement('button');
-            cancelButton.classList.add('submit-cancel');
-            cancelButton.type = 'cancel';
-            cancelButton.id = 'cancel';
-            cancelButton.textContent = 'Cancel';
+            const cancelButton = createCancelButtonDomElement();
             
             giveFamilyStatusToDomElements();
             addEventListenerToForm();
@@ -135,8 +106,63 @@ const popupForm = (()=> {
             return { titleInput, duedateInput, detailsInput, submitButton: submitInput, formPopup, formContainer,prioritySelect };
         }
     
+    function createCancelButtonDomElement() {
+        const cancelButton = document.createElement('button');
+        cancelButton.classList.add('submit-cancel');
+        cancelButton.type = 'cancel';
+        cancelButton.id = 'cancel';
+        cancelButton.textContent = 'Cancel';
+        return cancelButton;
+    }
+
+    function createSubmitButtonDomElement() {
+        const submitInput = document.createElement('input');
+        submitInput.classList.add('submit-cancel');
+        submitInput.type = 'submit';
+        submitInput.id = 'submit';
+        submitInput.value = 'Submit';
+        return submitInput;
+    }
+
+    function createTitleInputForPopupForm() {
+        const titleInput = document.createElement('input');
+        titleInput.type = 'text';
+        titleInput.id = 'title';
+        titleInput.name = 'title';
+        titleInput.setAttribute('required', '');
+        titleInput.setAttribute('autofocus', '');
+        titleInput.style.display = 'block';
+        return titleInput;
+    }
+
+    function createTitleLabelForPopupForm() {
+        const titleLabel = document.createElement('label');
+        titleLabel.htmlFor = 'name';
+        titleLabel.textContent = 'Title:';
+        titleLabel.style.display = 'block';
+        return titleLabel;
+    }
+
+    function createBoilerPlatePopupForm() {
+        if (document.querySelector('.form-container') !== null) {
+            document.querySelector('.form-container').remove();
+        }
+
+        const formContainer = document.createElement('div');
+        formContainer.classList.add('form-container');
+
+        const formPopup = document.createElement('form');
+        formPopup.id = 'form-popup';
+
+        const fieldSet = document.createElement("fielset");
+
+        const legend = document.createElement('legend');
+        legend.textContent = 'New Task';
+        return { fieldSet, legend, formPopup, formContainer };
+    }
+
     function createEditToDoTaskDetailsPopup(e){
-        const  { titleInput, duedateInput, detailsInput, submitButton, formPopup, prioritySelect } = createPopupFormDomElements();
+        const  { titleInput, duedateInput, detailsInput, submitButton, formPopup, prioritySelect } = createPopupFormNewTaskDomElements();
 
         titleInput.value = e.target.toDoObject.getValueFromToDoObject('title');
         duedateInput.value = e.target.toDoObject.getValueFromToDoObject('dueDate');
@@ -147,6 +173,35 @@ const popupForm = (()=> {
         formPopup.removeEventListener("submit", createFormDataForNewToDoObject);
         formPopup.addEventListener("submit", createFormDataForExistingToDoObject);
     }
+
+    const createNewProjectPopUp =  () => {
+
+        const {fieldSet, legend, formPopup, formContainer} = createBoilerPlatePopupForm();
+        const titleLabel = createTitleLabelForPopupForm();
+        const titleInput = createTitleInputForPopupForm();
+        const submitButton = createSubmitButtonDomElement();
+        const cancelButton = createCancelButtonDomElement();
+        
+        legend.textContent = 'New Project';
+        titleLabel.textContent = 'Title:';
+        submitButton.value = 'Confirm new project?';
+        
+        formPopup.removeEventListener("submit", createFormDataForNewToDoObject);
+        formPopup.removeEventListener("submit", createFormDataForExistingToDoObject);
+        formPopup.addEventListener("submit", createFormDataForNewProject);
+        formPopup.addEventListener("formdata", hidePopForm);
+        cancelButton.addEventListener('click', hidePopForm);
+
+        fieldSet.appendChild(legend);
+        fieldSet.appendChild(titleLabel);
+        fieldSet.appendChild(titleInput);
+        fieldSet.appendChild(submitButton);
+        fieldSet.appendChild(cancelButton);
+        formPopup.appendChild(fieldSet);
+        formContainer.appendChild(formPopup);
+        document.querySelector('body').appendChild(formContainer);
+        formContainer.style.display = 'block';
+    } 
 
     const hidePopForm = () => {
         console.log('formdata fired');
@@ -167,6 +222,13 @@ const popupForm = (()=> {
         const formdata = new FormData(e.target);
         editToDoObjectDetailsForm.editToDoObject(e.target.toDoObject, formdata);
     }
-    return {createEditToDoTaskDetailsPopup, createPopupFormDomElements};
+    function createFormDataForNewProject(e){
+        if (e.submitter.id === "cancel") return;
+        e.preventDefault();
+        const formdata = new FormData(e.target);
+        createProjectsSideBarDomElements.addNewProjectToProjectsSideBar(formdata);
+    }
+    return {createEditToDoTaskDetailsPopup, createPopupFormDomElements: createPopupFormNewTaskDomElements,
+        createNewProjectPopUp};
 })();
 export {popupForm};
