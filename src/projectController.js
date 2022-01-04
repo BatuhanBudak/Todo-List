@@ -1,8 +1,8 @@
 import {ProjectObject} from "./projectObject.js";
 import format from 'date-fns/format';
-import isSameDay from 'date-fns/isSameDay';
 import isSameWeek from 'date-fns/isSameWeek';
 import parse from 'date-fns/parse';
+import isToday from 'date-fns/isToday';
 
 const projectController = (() => {
 
@@ -31,22 +31,18 @@ const projectController = (() => {
     }
     const getProjectsDueThisWeek = () => {
        
-        const allProjects = getAllProjects();
-
-        for (const project of allProjects) {
-            for (const toDo of project.getAllToDos()) {
+        // for (const project of allProjects) {
+        //     for (const toDo of project.getAllToDos()) {
                 
-                    if(isDueThisWeek(toDo)){
-                        task.push(toDo);
-                    }
+        //             if(isDueThisWeek(toDo)){
+        //                 task.push(toDo);
+        //             }
                 
-            }
-           
-        }
-        return task;
+        //     }
+       
         
-        // let task = getAllProjects().forEach(project => {return project.getAllToDos().filter(toDo => isDueThisWeek(toDo))});
-        // return task;
+       return getAllProjects().map(project => project.getAllToDos()).flat().filter(isDueThisWeek);
+        
 
     }
 
@@ -58,21 +54,23 @@ const projectController = (() => {
 
         let d = new Date(2022, 0, 3);
         return isSameWeek(parsed, d);
+        
     }
 
 
     const getProjectsDueToday = () => {
-        return projectController.getAllProjects()
-         .forEach(project => project.getAllToDos().
-         filter(toDo => 
-             {
-                 let toDoDate = toDo.getValueFromToDoObject('dueDate');
-                 let d = new Date(); d.setHours(0, 0, 0, 0);
-                 return isSameDay(toDoDate, d);    
-         }));
+        return getAllProjects().map(project => project.getAllToDos()).flat().filter(isDueToday);
+      
      }
      
-    
+     function isDueToday(toDoObject) {
+        let toDoDate = toDoObject.getValueFromToDoObject('dueDate');
+        let parsed = parse(toDoDate, 'MM/dd/yyyy', new Date());
+
+        let d = new Date(2022, 0, 3);
+        return isToday(parsed, d);
+        
+     }
 
 
     const removeProjectFromProjectsArray = projectToRemove => {

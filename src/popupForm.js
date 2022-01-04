@@ -2,7 +2,7 @@ import {toDoObjectFactory} from "./toDoObject.js";
 import {taskForm} from './toDoNewTaskForm.js';
 import {editToDoObjectDetailsForm} from './editToDoObjectForm.js';
 import {createProjectsSideBarDomElements} from './createProjecsSieBarDomElements.js';
-
+import parse from 'date-fns/parse';
 const popupForm = (()=> {
 
            function createPopupFormNewTaskDomElements() {
@@ -41,16 +41,16 @@ const popupForm = (()=> {
             prioritySelectOption1.textContent = '--Please choose a priority--';
 
             const prioritySelectOption2 = document.createElement('option');
-            prioritySelectOption2.value = "Low";
-            prioritySelectOption2.textContent = 'Low';
+            prioritySelectOption2.value = "LOW";
+            prioritySelectOption2.textContent = 'LOW';
 
             const prioritySelectOption3 = document.createElement('option');
-            prioritySelectOption3.value = "Medium";
-            prioritySelectOption3.textContent = 'Medium';
+            prioritySelectOption3.value = "MEDIUM";
+            prioritySelectOption3.textContent = 'MEDIUM';
 
             const prioritySelectOption4 = document.createElement('option');
-            prioritySelectOption4.value = "High";
-            prioritySelectOption4.textContent = 'High';
+            prioritySelectOption4.value = "HIGH";
+            prioritySelectOption4.textContent = 'HIGH';
 
             const detailsLabel = document.createElement('label');
             detailsLabel.htmlFor = 'name';
@@ -165,8 +165,10 @@ const popupForm = (()=> {
         const  { titleInput, duedateInput, detailsInput, submitButton, formPopup, prioritySelect } = createPopupFormNewTaskDomElements();
 
         titleInput.value = e.target.toDoObject.getValueFromToDoObject('title');
-        duedateInput.value = e.target.toDoObject.getValueFromToDoObject('dueDate');
-        prioritySelect.value = e.target.toDoObject.getValueFromToDoObject('priority');
+        let toDoDate = e.target.toDoObject.getValueFromToDoObject('dueDate')
+        let parsed = parse(toDoDate, 'MM/dd/yyyy', new Date());
+        duedateInput.valueAsDate = parsed;
+        prioritySelect.value = e.target.toDoObject.getValueFromToDoObject('priority').toUpperCase();
         detailsInput.value = e.target.toDoObject.getValueFromToDoObject('details');
         submitButton.value = 'Confirm changes?';
         formPopup.toDoObject = e.target.toDoObject;

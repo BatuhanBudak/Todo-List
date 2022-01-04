@@ -9,12 +9,7 @@ var format = require('date-fns/format');
 
 const addTaskForm = (() => {
 
-    //Bunları değiştirmem lazım
-    const addTaskButton = document.querySelector(".add-task-button");
-    addTaskButton.onclick = () => popupForm.createPopupFormDomElements();
-    
-    const form = document.querySelector(".form-container");
-    
+       
 function createAndPushNewToDoTask(formdata) {
    
   
@@ -27,12 +22,6 @@ function createAndPushNewToDoTask(formdata) {
        
    currentProject.addToDoObjectToArray(newToDoObject);
 
-   
-//    let newToDoDomElement = toDoDomElementFactory(newToDoObject);
-
-
-//    //Rendering
-//    document.querySelector(".task-area").firstElementChild.appendChild(newToDoDomElement);
     render.renderToDoList();
    
 }

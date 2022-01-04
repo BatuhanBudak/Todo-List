@@ -16,7 +16,7 @@ const works = ProjectObject('Work');
 const law = ProjectObject('Law');
 
 
-let date1 = format(new Date(2022, 0, 5), 'MM/dd/yyyy');
+let date1 = format(new Date(2022, 1, 5), 'MM/dd/yyyy');
 let date2 = format(new Date(2022, 0, 4), 'MM/dd/yyyy');
 let date3 =  format(new Date(2022, 0, 3), 'MM/dd/yyyy');
 
@@ -53,12 +53,12 @@ projectController.getAllProjects()
                                     home.addToDoObjectToArray(newToDo);}));
                                    
 
-// document.querySelector("#home-button").addEventListener('click', render.renderHomePageToDoList);
+projectController.setCurrentProject(home);
+document.querySelector("#home-button").addEventListener('click', render.renderHomePageToDoList);
 document.querySelector("#week-button").addEventListener('click', render.renderWeekPageToDoList);
 document.querySelector("#today-button").addEventListener('click', render.renderTodayToDoList);
 
 
-projectController.setCurrentProject(home);
 
 createProjectsSideBarDomElements.createDomElements();
 render.renderProjectsSideBar();
