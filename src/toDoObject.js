@@ -1,5 +1,4 @@
-import {ProjectObject} from "./projectObject.js";
-import {taskForm} from './toDoNewTaskForm.js';
+
 
 const toDoObjectFactory = (title, dueDate, priority, details="", project=null) => {
  

@@ -1,9 +1,7 @@
 import {projectController} from './projectController.js';
-import {toDoObjectFactory} from "./toDoObject.js";
-import {ProjectObject} from "./projectObject.js";
 import {toDoDomElementFactory} from './createToDoDomElement.js';
 import {popupForm} from './popupForm.js'
-import { add } from 'date-fns';
+
 
 const render = (() => {
     let isInitiliazed = false; 
@@ -14,6 +12,7 @@ const render = (() => {
         clearTaskContentArea();
         let currentProject = projectController.getCurrentProject();
 
+        //Week, today ve home'un projelere eklenmesi ile switch gereksiz kalmis olabilir
         switch(currentProject){
             case('home'):
                 renderHomePageToDoList();
@@ -41,6 +40,7 @@ const render = (() => {
                 });
         
                 const addTaskButton = document.createElement("button");
+                addTaskButton.id = "add-task-button";
                 addTaskButton.textContent = 'Add Task +';
                 document.querySelector(".task-area").appendChild(addTaskButton);
                 addTaskButton.onclick = () => popupForm.createPopupFormDomElements();
@@ -69,7 +69,7 @@ const render = (() => {
 
     const renderWeekPageToDoList = () => {
         clearTaskContentArea();
-        projectController.setCurrentProject('home');
+        projectController.setCurrentProject('week');
         const projectHeader = document.createElement('h2');
         projectHeader.textContent = 'This Week';
         taskArea.appendChild(projectHeader);
@@ -83,6 +83,7 @@ const render = (() => {
                                                 }
     const renderTodayToDoList = () => {
         clearTaskContentArea();
+        projectController.setCurrentProject('today');
         const projectHeader = document.createElement('h2');
         projectHeader.textContent = 'Today';
         taskArea.appendChild(projectHeader);
@@ -109,12 +110,19 @@ const render = (() => {
             const projectListButtonDomElement = document.createElement('button');
             projectListButtonDomElement.textContent = project['title'];
             projectListButtonDomElement.value = project['title'];
+
+            const projectListRemoveButtonDomElement = document.createElement('button');
+            projectListRemoveButtonDomElement.textContent = 'X';
+            projectListRemoveButtonDomElement.value = projectListDomElement.dataset.projectIndex;
+            projectListRemoveButtonDomElement.id = 'remove-project-button';
             projectListButtonDomElement.addEventListener('click', e => {
                 projectController.setCurrentProject(projectController.getAllProjects()[e.target.parentElement.dataset.projectIndex]);
                 renderToDoList();
             })
+            projectListRemoveButtonDomElement.addEventListener('click', e => projectController.removeProjectFromArray(e.target.value))
             
             projectListDomElement.appendChild(projectListButtonDomElement);
+            projectListDomElement.appendChild(projectListRemoveButtonDomElement);
             sideBarProjectsUl.appendChild(projectListDomElement);
             isInitiliazed = true;
 
@@ -122,7 +130,7 @@ const render = (() => {
         const addProjectButtonLiElement = document.createElement('li');
         const addProjectButton = document.createElement('button');
         addProjectButton.id = 'add-project-button';
-        addProjectButton.textContent = 'Add Project +';
+        addProjectButton.textContent = ' + Add Project';
         addProjectButton.addEventListener('click', popupForm.createNewProjectPopUp)
         addProjectButtonLiElement.appendChild(addProjectButton);
         sideBarProjectsUl.appendChild(addProjectButtonLiElement);

@@ -87,10 +87,12 @@ const projectController = (() => {
         return result;
      }
 
-
-    const removeProjectFromProjectsArray = projectToRemove => {
-        let index = allProjects.findIndex(element => {element.getTitle() == projectToRemove.getTitle()});
+    const removeProjectFromProjectsArray = index => {
         allProjects.splice(index,1);
+        setActiveProjectAfterRemovalOfProject(index);
+        render.renderProjectsSideBar();
+        storeMyProjects();
+        render.renderToDoList(); 
     }
 
 
@@ -100,9 +102,22 @@ const projectController = (() => {
        const indexOfProject = findIndexOfProject(projectName);
        const indexOfToDoObject = e.target.parentElement.dataset.taskIndex;
        allProjects[indexOfProject].toDoObjects.splice(indexOfToDoObject,1);
+       if(allProjects[indexOfProject].toDoObjects.length === 0){
+           setActiveProjectAfterRemovalOfProject(indexOfProject);
+            removeProjectFromProjectsArray(indexOfProject);
+            render.renderProjectsSideBar();  
+       }    
+
+       storeMyProjects();
        render.renderToDoList();
     }
     
+    const setActiveProjectAfterRemovalOfProject = (i) => {
+        i === 0 ? setCurrentProject(allProjects[i+1]) : setCurrentProject(allProjects[i-1]);
+    }
+
+
+
     const editToDoObjectsArrayWithNewState = function(projectName, taskIndex, newStateToDoObject){
         const projectIndex = findIndexOfProject(projectName);
         allProjects[projectIndex].toDoObjects.splice(taskIndex, 1, newStateToDoObject);

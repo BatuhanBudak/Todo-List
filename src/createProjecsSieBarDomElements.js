@@ -10,7 +10,7 @@ const createProjectsSideBarDomElements = (() => {
         const projectsSideBarContainer = document.createElement('div');
         projectsSideBarContainer.classList.add('sidebar-projects');
 
-        const projectsHeader = document.createElement('h3');
+        const projectsHeader = document.createElement('h2');
         projectsHeader.textContent = 'Projects';
 
         const projectsSideBarUl = document.createElement('ul');

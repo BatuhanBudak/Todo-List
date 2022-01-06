@@ -1,8 +1,8 @@
-import {toDoObjectFactory} from "./toDoObject.js";
 import {taskForm} from './toDoNewTaskForm.js';
 import {editToDoObjectDetailsForm} from './editToDoObjectForm.js';
 import {createProjectsSideBarDomElements} from './createProjecsSieBarDomElements.js';
 import parse from 'date-fns/parse';
+
 const popupForm = (()=> {
 
             //Empty pop-up form for new task 
@@ -217,25 +217,21 @@ const popupForm = (()=> {
         formContainer.style.display = "none";
         document.querySelector('#form-popup').reset();
     } 
-    //When form data fires pop up closes
-    //Create new task with form data with taskForm module
-    //Arrayde degisiklik orda yapiliyor
+   
     function createFormDataForNewToDoObject(e){
         if (e.submitter.id === "cancel") return;
         e.preventDefault();
         const formdata = new FormData(e.target);
         taskForm.createAndPushNewToDoTask(formdata);
     }
-    //Edit the task with editToDoObjectModule
-     //Arrayde degisiklik orda yapiliyor
+    
     function createFormDataForExistingToDoObject(e){
         if (e.submitter.id === "cancel") return;
         e.preventDefault();
         const formdata = new FormData(e.target);
         editToDoObjectDetailsForm.editToDoObject(e.target.toDoObject,e.target.taskIndex, formdata);
     }
-    //Form datadan proje olusturuluyor 
-    // //Arrayde degisiklik orda yapiliyor
+ 
     function createFormDataForNewProject(e){
         if (e.submitter.id === "cancel") return;
         e.preventDefault();

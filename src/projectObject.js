@@ -1,6 +1,4 @@
-import {toDoObjectFactory} from "./toDoObject.js"
-import {taskForm} from './toDoNewTaskForm.js';
-import {render} from "./render.js";
+
 
 const ProjectObject = (title) => {
     
@@ -12,28 +10,23 @@ const ProjectObject = (title) => {
         return toDoObjects;
     }
 
+    //Unused func
     const getToDoObject = (index) => toDoObjects[index];
 
     const addToDoObjectToArray = objectToAdd => toDoObjects.push(objectToAdd);
-    
-    const editToDoObjectsArrayWithNewState = function(index, newStateToDoObject){
-        toDoObjects.splice(index, 1, newStateToDoObject);
-    }
-
-    const removeToDoObjectFromArray = e => {
-        let index = findIndexOfToDoObject(e.target.toDoObject);
-        toDoObjects.splice(index,1);
-        render.renderToDoList();
-    }
-    const findIndexOfToDoObject = (object) => {
        
-        return toDoObjects.findIndex(element => element.getValueFromToDoObject('title') === object.getValueFromToDoObject('title'));
+
+    const findIndexOfToDoObject = (title) => {
+       
+        return toDoObjects.findIndex(element => element.title === title);
         
     }
-  
-    const getToDoObjectsArray = () => toDoObjects;
+    const toJSON =  function  toJSON() {
+        return {title, toDoObjects};
+    }
+   
 
-    return {getTitle, getToDoObject, addToDoObjectToArray,  removeToDoObjectFromArray, getToDoObjectsArray: getToDoObjectsArray, findIndexOfToDoObject, editToDoObjectsArray: editToDoObjectsArrayWithNewState, getAllToDos};
+    return {toJSON, getTitle, getToDoObject, addToDoObjectToArray,  findIndexOfToDoObject, getAllToDos};
 
 }
 

@@ -1,6 +1,3 @@
-import { projectController } from "./projectController.js";
-import {toDoObjectFactory} from "./toDoObject.js";
-import {ProjectObject} from "./projectObject.js";
 
 const toDoObjectDetailsModalBox = (() => {
     let modalCreated = false;

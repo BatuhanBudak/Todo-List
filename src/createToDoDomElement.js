@@ -1,7 +1,4 @@
-import {toDoObjectFactory} from "./toDoObject.js";
 import {projectController} from './projectController.js';
-import {taskForm} from './toDoNewTaskForm.js';
-import {ProjectObject} from "./projectObject.js";
 import {toDoObjectDetailsModalBox} from './toDoObjectDetailsModalBox.js';
 import {popupForm} from './popupForm.js'
 
@@ -9,7 +6,8 @@ const toDoDomElementFactory = (toDoObject) => {
     
        function createDomElements(toDoObject) {
         const domElementList = document.createElement("li");
-     
+        domElementList.classList.add('task-area-li');
+        domElementList.setAttribute('data-priority', toDoObject.priority);
 
         const checkBox = document.createElement('input');
         const label = document.createElement('label');
@@ -42,8 +40,10 @@ const toDoDomElementFactory = (toDoObject) => {
 
                 titleSpan.textContent = toDoObject.title;
                 dateSpan.textContent = toDoObject.dueDate;
+                
             }
             populateDomElements();
+            appendDomElementsToListElement();
 
             function appendDomElementsToListElement() {
                 domElementList.appendChild(label);
@@ -54,7 +54,6 @@ const toDoDomElementFactory = (toDoObject) => {
                 domElementList.appendChild(removeButton);
                 domElementList.appendChild(editButton);
             }
-            appendDomElementsToListElement();
 
             return domElementList;
     }

@@ -4,18 +4,20 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    box-sizing: border-box;
 }
 
 .header {
     display: flex;
     align-items: center;
+
     padding: 0 16px;
     font-size: 32px;
     font-weight: 900;
     height: 72px;
-    background: darkmagenta;
+    background: #373737;
     color: white;
-    justify-content: center;
+    justify-content: flex-start;
   }
 .content{
   display: flex;
@@ -123,34 +125,100 @@ body {
   cursor: pointer;
   }
 
-
-
-
-
 .task-area{
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   flex-basis: 100%;
+  background-color: rgb(230, 230, 230);
+  gap: 10px;
 }
 
 .sidebar {
-  width: 300px;
-  background: royalblue;
+  width: 250px;
+  background: lightgray;
   flex-shrink: 0;
   padding: 16px;
 }
 
 
-ul {
+
+.task-area-ul{
+  gap: 10px;
+  display: flex;
+  flex-direction: column;
+  align-self: flex-start;
+  width: 100%;
+  
+}
+.task-area-li{
+    display: flex;
+    align-items: center;
+    border: 1px solid black;
+    background: floralwhite;
+    gap: 15px;
+    padding: 10px;
+    margin: 0 10px 0 10px;
+  }
+  .task-area-li span:nth-child(3){ margin-right:auto;}
+
+    [data-priority="LOW"] {
+      background-color: darkseagreen;
+    }
+    [data-priority="MEDIUM"] {
+      background-color: gold;
+    }
+
+    [data-priority="HIGH"] {
+      background-color: rgb(220, 20, 30);
+    }
+    .task-area button{
+      background-color: rgb(214, 214, 214);
+      padding: 5px 10px;
+    }
+      .task-area button:hover{
+        background-color: rgb(235, 235, 235);
+        padding: 5px 10px;
+      }
+    #add-task-button{
+      border-radius: 50%;
+      padding: 10px 20px;
+      border: 1px solid green;
+      background-color:lightgreen;
+      text-align: center;
+    }
+    #add-task-button:hover{
+      background-color:rgb(152, 252, 152);
+    }
+.projects-ul {
+    
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+  }
+  .projects-ul li{
+    display: flex;
+  }
+
+#remove-project-button{
+  text-align: right;
+  font-size: 24px;
+  font-weight: bold;
+  
+}
+  #remove-project-button:hover{
+    background-color:rgb(214, 214, 214);
+  }
+  ul{
     list-style-type: none;
     margin: 0;
     padding: 0;
   }
-  li {
+  /* li {
     margin-bottom: 16px;
-  }
+  } */
 
   a {
     color: white;
@@ -159,11 +227,56 @@ ul {
   }
 
 .footer {
-  height: 72px;
-  background: #eee;
-  color: darkmagenta;
+  height: 60px;
+  background: #373737;
+  color: white;
   display: flex;
   align-items: center;
   justify-content: center;
   
+}
+
+.stable-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-weight: bold;
+  
+}
+
+
+.projects-ul button,
+.stable-sidebar li button{
+  width: 100%;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  border-color: currentcolor;
+  background-color: inherit;
+  color: inherit;
+  outline-color: currentcolor;
+  text-align: left;
+  font-size: 16px;
+  
+}
+.projects-ul button:hover,
+.stable-sidebar li button:hover{
+  background-color: rgb(167, 167, 167);
+}
+.projects-ul button:active,
+.stable-sidebar li button:active{
+  background-color: rgb(126, 126, 126);
+  font-weight: bolder;
+}
+.projects-ul button:focus,
+.stable-sidebar li button:focus{
+  background-color: rgb(194, 194, 194);
+  font-weight: bolder;
+}
+#add-project-button{
+  border: 1px solid green;
+  background-color:lightgreen;
+  text-align: center;
 }
