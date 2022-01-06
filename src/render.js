@@ -14,44 +14,71 @@ const render = (() => {
         clearTaskContentArea();
         let currentProject = projectController.getCurrentProject();
 
-        createHeaderDomElementFromCurrentProjectTitle(currentProject, taskArea);
+        switch(currentProject){
+            case('home'):
+                renderHomePageToDoList();
+                return;
+            case ('week'):
+                renderWeekPageToDoList();
+                return;
+            case ('today'):
+                renderTodayToDoList();
+                return;
+            default:
+                createHeaderDomElementFromCurrentProjectTitle(currentProject, taskArea);
 
-        const toDoObjectsArray = currentProject.getToDoObjectsArray();
+                const toDoObjectsArray = currentProject.toDoObjects;
+        
+                let ulTaskArea = createTaskAreaUlElement();
 
-        let ulTaskArea = createTaskAreaUlElement();
-        toDoObjectsArray.forEach(element => {
-            let newToDoDomElement = toDoDomElementFactory(element);
-            ulTaskArea.appendChild(newToDoDomElement);
-        });
+                toDoObjectsArray.forEach((element, i) => {
 
-        const addTaskButton = document.createElement("button");
-        addTaskButton.textContent = 'Add Task +';
-        document.querySelector(".task-area").appendChild(addTaskButton);
-        addTaskButton.onclick = () => popupForm.createPopupFormDomElements();
+                    let newToDoDomElement = toDoDomElementFactory(element);
+                    newToDoDomElement.setAttribute("data-task-index", i);
+                    newToDoDomElement.setAttribute('data-project',element.project);
+                    ulTaskArea.appendChild(newToDoDomElement);
+
+                });
+        
+                const addTaskButton = document.createElement("button");
+                addTaskButton.textContent = 'Add Task +';
+                document.querySelector(".task-area").appendChild(addTaskButton);
+                addTaskButton.onclick = () => popupForm.createPopupFormDomElements();
+                return;
+        }
+               
     }
     const renderHomePageToDoList = () => {
        clearTaskContentArea();
+       projectController.setCurrentProject('home');
        const projectHeader = document.createElement('h2');
        projectHeader.textContent = 'Home';
        taskArea.appendChild(projectHeader);
        let ulTaskArea = createTaskAreaUlElement();
        
        projectController.getAllProjects()
-                                    .forEach(project => project.getAllToDos().
-                                    forEach(toDo => {
-                                    let newToDoDomElement = toDoDomElementFactory(toDo)
-                                    ulTaskArea.appendChild(newToDoDomElement)}));
+                                    .forEach((project, i) =>
+                                        project['toDoObjects']
+                                        .forEach((toDo, j) => {
+                                        let newToDoDomElement = toDoDomElementFactory(toDo);
+                                        newToDoDomElement.setAttribute("data-task-project", i);
+                                        newToDoDomElement.setAttribute("data-task-index", j)
+                                        newToDoDomElement.setAttribute('data-project',toDo.project);
+                                        ulTaskArea.appendChild(newToDoDomElement)}));
     }
 
     const renderWeekPageToDoList = () => {
         clearTaskContentArea();
+        projectController.setCurrentProject('home');
         const projectHeader = document.createElement('h2');
         projectHeader.textContent = 'This Week';
         taskArea.appendChild(projectHeader);
         let ulTaskArea = createTaskAreaUlElement();
         projectController.getProjectsDueThisWeek()
-                                                .forEach(toDo => {
+                                                .forEach((toDo, i) => {
                                                 let newToDoDomElement = toDoDomElementFactory(toDo);
+                                                newToDoDomElement.setAttribute("data-task", i);
+                                                newToDoDomElement.setAttribute('data-project',toDo.project);
                                                 ulTaskArea.appendChild(newToDoDomElement)});
                                                 }
     const renderTodayToDoList = () => {
@@ -60,11 +87,13 @@ const render = (() => {
         projectHeader.textContent = 'Today';
         taskArea.appendChild(projectHeader);
         let ulTaskArea = createTaskAreaUlElement();
-        projectController.getProjectsDueToday().
-                                                forEach(toDo => {
-                                                let newToDoDomElement = toDoDomElementFactory(toDo);
-                                                ulTaskArea.appendChild(newToDoDomElement)});
-                                                }                                            
+        projectController.getProjectsDueToday()
+                                                .forEach((toDo, i) => {
+                                                    let newToDoDomElement = toDoDomElementFactory(toDo);
+                                                    newToDoDomElement.setAttribute("data-task", i);
+                                                    newToDoDomElement.setAttribute('data-project',toDo.project);
+                                                    ulTaskArea.appendChild(newToDoDomElement)});
+                                                    }                               
     
     const clearTaskContentArea = () => Array.from(document.querySelector(".task-area").children).forEach(child => child.remove());
 
@@ -73,14 +102,15 @@ const render = (() => {
         const sideBarProjectsUl = document.querySelector('.projects-ul');
         if(isInitiliazed) clearProjectsSideBar();
         let allProjects = projectController.getAllProjects();
-        allProjects.forEach(project => {
+        allProjects.forEach((project, i) => {
            
             const projectListDomElement = document.createElement('li');
+            projectListDomElement.setAttribute("data-project-index", i);
             const projectListButtonDomElement = document.createElement('button');
-            projectListButtonDomElement.textContent = project.getTitle();
-            projectListButtonDomElement.value = project.getTitle();
+            projectListButtonDomElement.textContent = project['title'];
+            projectListButtonDomElement.value = project['title'];
             projectListButtonDomElement.addEventListener('click', e => {
-                projectController.setCurrentProject(projectController.findProject(e.target.value))
+                projectController.setCurrentProject(projectController.getAllProjects()[e.target.parentElement.dataset.projectIndex]);
                 renderToDoList();
             })
             
@@ -103,17 +133,18 @@ const render = (() => {
 
 })();
 
-export {render};
 
-    function createTaskAreaUlElement() {
-        let ulTaskArea = document.createElement('ul');
-        ulTaskArea.classList.add(".task-area-ul");
-        document.querySelector(".task-area").appendChild(ulTaskArea);
-        return ulTaskArea;
-    }
+function createTaskAreaUlElement() {
+    let ulTaskArea = document.createElement('ul');
+    ulTaskArea.classList.add("task-area-ul");
+    document.querySelector(".task-area").appendChild(ulTaskArea);
+    return ulTaskArea;
+}
 
 function createHeaderDomElementFromCurrentProjectTitle(currentProject, area) {
     const projectHeader = document.createElement('h2');
-    projectHeader.textContent = currentProject.getTitle();
+    projectHeader.textContent = currentProject.title;
     area.appendChild(projectHeader);
 }
+
+export {render};

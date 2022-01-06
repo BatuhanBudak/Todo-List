@@ -9,9 +9,7 @@ const toDoDomElementFactory = (toDoObject) => {
     
        function createDomElements(toDoObject) {
         const domElementList = document.createElement("li");
-        let currentProject= projectController.getCurrentProject();
-        domElementList.setAttribute("data-index",
-                                   currentProject.findIndexOfToDoObject(toDoObject));
+     
 
         const checkBox = document.createElement('input');
         const label = document.createElement('label');
@@ -26,20 +24,24 @@ const toDoDomElementFactory = (toDoObject) => {
                 checkBox.name = "check-box";
                 checkBox.id = "check-box";
                 label.htmlFor = 'id';
+
                 detailsButton.textContent = "Details";
-                detailsButton.onclick = () => {
+                detailsButton.onclick = (e) => {
                     toDoObjectDetailsModalBox.createToDoObjectDetailsModalBox();
-                    toDoObjectDetailsModalBox.setToDoObjectDetailsModalBox(toDoObject);
+                    toDoObjectDetailsModalBox.setToDoObjectDetailsModalBox(toDoObject,e);
                     toDoObjectDetailsModalBox.showModalBox();
                 }
+
                 editButton.textContent = "Edit"; //simge eklenecek.
                 editButton.toDoObject = toDoObject;
                 editButton.addEventListener('click', popupForm.createEditToDoTaskDetailsPopup);
+
                 removeButton.textContent = "Remove"; //simge eklenecek.
-                removeButton.toDoObject = toDoObject;
-                removeButton.addEventListener('click', currentProject.removeToDoObjectFromArray);
-                titleSpan.textContent = toDoObject.getValueFromToDoObject('title');
-                dateSpan.textContent = toDoObject.getValueFromToDoObject('dueDate');
+               
+                removeButton.addEventListener('click',  projectController.removeToDoTaskFromProject);
+
+                titleSpan.textContent = toDoObject.title;
+                dateSpan.textContent = toDoObject.dueDate;
             }
             populateDomElements();
 

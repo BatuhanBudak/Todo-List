@@ -7,26 +7,19 @@ import {render} from "./render.js";
 const editToDoObjectDetailsForm = (() => {
 
 
-    function editToDoObject(object, formdata) {
+    function editToDoObject(object, taskIndex, formdata) {
        
-      const currentProject = projectController.getCurrentProject();
-      const indexOfToDoObject = currentProject.findIndexOfToDoObject(object); //add task button array'de
+          
       
+      let newToDoObject = JSON.stringify(toDoObjectFactory(formdata.get('title'),
+      formdata.get('due-date'),
+      formdata.get('priority'),
+      formdata.get('details'),
+      object.project));
       
-
-      let newToDoObject = toDoObjectFactory(formdata.get('title'),
-           formdata.get('due-date'),
-           formdata.get('priority'),
-           formdata.get('details'));
-
-        currentProject.editToDoObjectsArray(indexOfToDoObject, newToDoObject);
-      
-      //  let newToDoDomElement = toDoDomElementFactory(newToDoObject);
-    
-       // Bu kısımla ilgili brainstorm yapılması lazım.Rendering
-      //  let ulTaskArea = document.querySelector(".task-area-ul");
-      //  let currentChild = ulTaskArea.children[indexOfToDoObject];
-      //  ulTaskArea.replaceChild(newToDoDomElement, currentChild);
+      let parsed = JSON.parse(newToDoObject);
+      projectController.editToDoObjectsArrayWithNewState(object.project, taskIndex, parsed);
+     
 
       render.renderToDoList();
     

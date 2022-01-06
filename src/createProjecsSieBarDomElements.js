@@ -24,10 +24,12 @@ const createProjectsSideBarDomElements = (() => {
     }
 
     const addNewProjectToProjectsSideBar = (formdata) => {
-        const newProject = ProjectObject(formdata.get('title'));
+        let newProject = ProjectObject(formdata.get('title'));
     
+        newProject = JSON.stringify(newProject);
+        newProject = JSON.parse(newProject);
+
         projectController.setCurrentProject(newProject);
-            
         projectController.addProjectToArray(newProject);
     
 

@@ -74,12 +74,12 @@ const toDoObjectDetailsModalBox = (() => {
 
         modalCreated = true;
 }
-const setToDoObjectDetailsModalBox = (toDoobject) => {
-        document.querySelector('#details-modal-title-header').textContent = `${toDoobject.getValueFromToDoObject('title')}`;
-        document.querySelector('#project-span-text').textContent = `${projectController.getCurrentProject().getTitle()}`;
-        document.querySelector('#priority-span-text').textContent = `${toDoobject.getValueFromToDoObject('priority')}`;
-        document.querySelector('#due-date-span-text').textContent = `${toDoobject.getValueFromToDoObject('dueDate')}`;
-        document.querySelector('#details-span-text').textContent = `${toDoobject.getValueFromToDoObject('details')}`;
+const setToDoObjectDetailsModalBox = (toDoobject,e) => {
+        document.querySelector('#details-modal-title-header').textContent = `${toDoobject.title}`;
+        document.querySelector('#project-span-text').textContent = `${e.target.parentElement.dataset.project}`;
+        document.querySelector('#priority-span-text').textContent = `${toDoobject.priority}`;
+        document.querySelector('#due-date-span-text').textContent = `${toDoobject.dueDate}`;
+        document.querySelector('#details-span-text').textContent = `${toDoobject.details}`;
     }
     const clearDetailsModalBox = () => {
         const detailsModalContainerDiv = document.querySelector(".modal");
