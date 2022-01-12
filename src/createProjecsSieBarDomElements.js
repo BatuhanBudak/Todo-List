@@ -1,43 +1,38 @@
-import {ProjectObject} from './projectObject.js';
-import {projectController} from './projectController.js';
-import {render} from './render.js';
+import { ProjectObject } from "./projectObject.js";
+import { projectController } from "./projectController.js";
+import { render } from "./render.js";
 
 const createProjectsSideBarDomElements = (() => {
+  const createDomElements = () => {
+    const projectsSideBarContainer = document.createElement("div");
+    projectsSideBarContainer.classList.add("sidebar-projects");
 
+    const projectsHeader = document.createElement("h2");
+    projectsHeader.textContent = "Projects";
 
-    const createDomElements = () => {
+    const projectsSideBarUl = document.createElement("ul");
+    projectsSideBarUl.classList.add("projects-ul");
 
-        const projectsSideBarContainer = document.createElement('div');
-        projectsSideBarContainer.classList.add('sidebar-projects');
+    projectsSideBarContainer.appendChild(projectsHeader);
+    projectsSideBarContainer.appendChild(projectsSideBarUl);
 
-        const projectsHeader = document.createElement('h2');
-        projectsHeader.textContent = 'Projects';
+    document.querySelector(".sidebar").appendChild(projectsSideBarContainer);
+  };
 
-        const projectsSideBarUl = document.createElement('ul');
-        projectsSideBarUl.classList.add('projects-ul');
+  const addNewProjectToProjectsSideBar = (formdata) => {
+    let newProject = ProjectObject(formdata.get("title"));
 
-        projectsSideBarContainer.appendChild(projectsHeader);
-        projectsSideBarContainer.appendChild(projectsSideBarUl);
+    newProject = JSON.stringify(newProject);
+    newProject = JSON.parse(newProject);
 
-        document.querySelector('.sidebar').appendChild(projectsSideBarContainer);
+    projectController.setCurrentProject(newProject);
+    projectController.addProjectToArray(newProject);
 
-    }
+    render.renderProjectsSideBar();
+    render.renderToDoList();
+  };
 
-    const addNewProjectToProjectsSideBar = (formdata) => {
-        let newProject = ProjectObject(formdata.get('title'));
-    
-        newProject = JSON.stringify(newProject);
-        newProject = JSON.parse(newProject);
-
-        projectController.setCurrentProject(newProject);
-        projectController.addProjectToArray(newProject);
-    
-
-        render.renderProjectsSideBar();
-        render.renderToDoList();
-    }
-
-    return {createDomElements, addNewProjectToProjectsSideBar};
+  return { createDomElements, addNewProjectToProjectsSideBar };
 })();
 
-export {createProjectsSideBarDomElements};
+export { createProjectsSideBarDomElements };

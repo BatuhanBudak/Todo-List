@@ -1,63 +1,67 @@
-import {projectController} from './projectController.js';
-import {toDoObjectDetailsModalBox} from './toDoObjectDetailsModalBox.js';
-import {popupForm} from './popupForm.js'
+import { projectController } from "./projectController.js";
+import { toDoObjectDetailsModalBox } from "./toDoObjectDetailsModalBox.js";
+import { popupForm } from "./popupForm.js";
 
 const toDoDomElementFactory = (toDoObject) => {
-    
-       function createDomElements(toDoObject) {
-        const domElementList = document.createElement("li");
-        domElementList.classList.add('task-area-li');
-        domElementList.setAttribute('data-priority', toDoObject.priority);
+  function createDomElements(toDoObject) {
+    const domElementList = document.createElement("li");
+    domElementList.classList.add("task-area-li");
+    domElementList.setAttribute("data-priority", toDoObject.priority);
 
-        const checkBox = document.createElement('input');
-        const label = document.createElement('label');
-        const titleSpan = document.createElement("span");
-        const detailsButton = document.createElement("button");
-        const dateSpan = document.createElement("span");
-        const editButton = document.createElement("button");
-        const removeButton = document.createElement("button");
-        
-            function populateDomElements() {
-                checkBox.type = "checkbox";
-                checkBox.name = "check-box";
-                checkBox.id = "check-box";
-                label.htmlFor = 'id';
+    const checkBox = document.createElement("input");
+    const label = document.createElement("label");
+    const titleSpan = document.createElement("span");
+    const detailsButton = document.createElement("button");
+    const dateSpan = document.createElement("span");
+    const editButton = document.createElement("button");
+    const removeButton = document.createElement("button");
 
-                detailsButton.textContent = "Details";
-                detailsButton.onclick = (e) => {
-                    toDoObjectDetailsModalBox.createToDoObjectDetailsModalBox();
-                    toDoObjectDetailsModalBox.setToDoObjectDetailsModalBox(toDoObject,e);
-                    toDoObjectDetailsModalBox.showModalBox();
-                }
+    function populateDomElements() {
+      checkBox.type = "checkbox";
+      checkBox.name = "check-box";
+      checkBox.id = "check-box";
+      label.htmlFor = "id";
 
-                editButton.textContent = "Edit"; //simge eklenecek.
-                editButton.toDoObject = toDoObject;
-                editButton.addEventListener('click', popupForm.createEditToDoTaskDetailsPopup);
+      detailsButton.textContent = "Details";
+      detailsButton.onclick = (e) => {
+        toDoObjectDetailsModalBox.createToDoObjectDetailsModalBox();
+        toDoObjectDetailsModalBox.setToDoObjectDetailsModalBox(toDoObject, e);
+        toDoObjectDetailsModalBox.showModalBox();
+      };
 
-                removeButton.textContent = "Remove"; //simge eklenecek.
-               
-                removeButton.addEventListener('click',  projectController.removeToDoTaskFromProject);
+      editButton.textContent = "Edit"; // simge eklenecek.
+      editButton.toDoObject = toDoObject;
+      editButton.addEventListener(
+        "click",
+        popupForm.createEditToDoTaskDetailsPopup
+      );
 
-                titleSpan.textContent = toDoObject.title;
-                dateSpan.textContent = toDoObject.dueDate;
-                
-            }
-            populateDomElements();
-            appendDomElementsToListElement();
+      removeButton.textContent = "Remove"; // simge eklenecek.
 
-            function appendDomElementsToListElement() {
-                domElementList.appendChild(label);
-                domElementList.appendChild(checkBox);
-                domElementList.appendChild(titleSpan);
-                domElementList.appendChild(dateSpan);
-                domElementList.appendChild(detailsButton);
-                domElementList.appendChild(removeButton);
-                domElementList.appendChild(editButton);
-            }
+      removeButton.addEventListener(
+        "click",
+        projectController.removeToDoTaskFromProject
+      );
 
-            return domElementList;
+      titleSpan.textContent = toDoObject.title;
+      dateSpan.textContent = toDoObject.dueDate;
     }
-  let element = createDomElements(toDoObject);
+    populateDomElements();
+    appendDomElementsToListElement();
+
+    function appendDomElementsToListElement() {
+      domElementList.appendChild(label);
+      domElementList.appendChild(checkBox);
+      domElementList.appendChild(titleSpan);
+      domElementList.appendChild(dateSpan);
+      domElementList.appendChild(detailsButton);
+      domElementList.appendChild(removeButton);
+      domElementList.appendChild(editButton);
+    }
+
+    return domElementList;
+  }
+  const element = createDomElements(toDoObject);
   return element;
-}
-export {toDoDomElementFactory};
+};
+export { toDoDomElementFactory };

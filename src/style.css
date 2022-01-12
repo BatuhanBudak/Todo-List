@@ -1,30 +1,31 @@
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    margin: 0;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
 }
 
 .header {
-    display: flex;
-    align-items: center;
-
-    padding: 0 16px;
-    font-size: 32px;
-    font-weight: 900;
-    height: 72px;
-    background: #373737;
-    color: white;
-    justify-content: flex-start;
-  }
-.content{
   display: flex;
-  flex:1;
+  align-items: center;
+
+  padding: 0 16px;
+  font-size: 32px;
+  font-weight: 900;
+  height: 72px;
+  background: #373737;
+  color: white;
+  justify-content: flex-start;
+}
+.content {
+  display: flex;
+  flex: 1;
 }
 
-.add-task-button{
+.add-task-button {
   align-self: center;
   padding: 15px 30px;
   background-color: #555;
@@ -35,62 +36,66 @@ body {
   max-width: 200px;
 }
 
-.form-container{
-  position: fixed; 
+.form-container {
+  position: fixed;
   display: none;
-  z-index: 1; 
+  z-index: 1;
   left: 0;
   top: 0;
-  width: 100%; 
-  height: 100%; 
-  overflow: auto; 
-  background-color: rgb(0,0,0); 
-  background-color: rgba(0,0,0,0.4); 
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0, 0, 0);
+  background-color: rgba(0, 0, 0, 0.4);
 }
 
-  #form-popup{
-      max-width: 600px;
-      background-color: white;
-      background-color: #fefefe;
-      margin: auto;
-      padding: 20px;
-      border: 1px solid #888;
-      width: 80%;
-      margin-top: 50px;
-      font-size: 25px;
-  }
-  
-      #form-popup input[type=text],
-      #form-popup input[type=number]
-      {
-          width: 80%;
-          padding: 15px;
-          margin: 5px 0 15px 0;
-          border: none;
-          background: #f1f1f1;
-      }
-      /* #form-popup input[type=checkbox]{ margin: 5px 0 22px 0;} */
-      
-      /* When the inputs get focus, do something */
-      #form-popup input[type=text]:focus,  #form-popup input[type=number]:focus {
-          background-color: #ddd;
-          outline: none;
-      }
+#form-popup {
+  max-width: 600px;
+  background-color: white;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  margin-top: 50px;
+  font-size: 25px;
+}
 
-      #form-popup .submit-cancel {
-      background-color: #04AA6D;
-      color: white;
-      padding: 16px 20px;
-      border: none;
-      cursor: pointer;
-      width: 100%;
-      margin: 0 5px 10px 5px;
-      opacity: 0.8;
-      text-align: center;
-      }
-      #form-popup #cancel { background-color: red; }
-      #form-popup .submit-cancel:hover, .add-task-button:hover { opacity: 1;}
+#form-popup input[type="text"],
+#form-popup input[type="number"] {
+  width: 80%;
+  padding: 15px;
+  margin: 5px 0 15px 0;
+  border: none;
+  background: #f1f1f1;
+}
+/* #form-popup input[type=checkbox]{ margin: 5px 0 22px 0;} */
 
+/* When the inputs get focus, do something */
+#form-popup input[type="text"]:focus,
+#form-popup input[type="number"]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+#form-popup .submit-cancel {
+  background-color: #04aa6d;
+  color: white;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  margin: 0 5px 10px 5px;
+  opacity: 0.8;
+  text-align: center;
+}
+#form-popup #cancel {
+  background-color: red;
+}
+#form-popup .submit-cancel:hover,
+.add-task-button:hover {
+  opacity: 1;
+}
 
 .modal {
   display: none; /* Hidden by default */
@@ -101,31 +106,31 @@ body {
   width: 100%; /* Full width */
   height: 100%; /* Full height */
   overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
 }
 
-  .modal-content {
-    background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
-    padding: 20px;
-    border: 1px solid #888;
-    width: 80%; /* Could be more or less, depending on screen size */
-  }
-  .close {
-    color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
-  }
-  .close:hover,
-  .close:focus {
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+.close:hover,
+.close:focus {
   color: black;
   text-decoration: none;
   cursor: pointer;
-  }
+}
 
-.task-area{
+.task-area {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -142,89 +147,85 @@ body {
   padding: 16px;
 }
 
-
-
-.task-area-ul{
+.task-area-ul {
   gap: 10px;
   display: flex;
   flex-direction: column;
   align-self: flex-start;
   width: 100%;
-  
 }
-.task-area-li{
-    display: flex;
-    align-items: center;
-    border: 1px solid black;
-    background: floralwhite;
-    gap: 15px;
-    padding: 10px;
-    margin: 0 10px 0 10px;
-  }
-  .task-area-li span:nth-child(3){ margin-right:auto;}
+.task-area-li {
+  display: flex;
+  align-items: center;
+  border: 1px solid black;
+  background: floralwhite;
+  gap: 15px;
+  padding: 10px;
+  margin: 0 10px 0 10px;
+}
+.task-area-li span:nth-child(3) {
+  margin-right: auto;
+}
 
-    [data-priority="LOW"] {
-      background-color: darkseagreen;
-    }
-    [data-priority="MEDIUM"] {
-      background-color: gold;
-    }
+[data-priority="LOW"] {
+  background-color: darkseagreen;
+}
+[data-priority="MEDIUM"] {
+  background-color: gold;
+}
 
-    [data-priority="HIGH"] {
-      background-color: rgb(220, 20, 30);
-    }
-    .task-area button{
-      background-color: rgb(214, 214, 214);
-      padding: 5px 10px;
-    }
-      .task-area button:hover{
-        background-color: rgb(235, 235, 235);
-        padding: 5px 10px;
-      }
-    #add-task-button{
-      border-radius: 50%;
-      padding: 10px 20px;
-      border: 1px solid green;
-      background-color:lightgreen;
-      text-align: center;
-    }
-    #add-task-button:hover{
-      background-color:rgb(152, 252, 152);
-    }
+[data-priority="HIGH"] {
+  background-color: rgb(220, 20, 30);
+}
+.task-area button {
+  background-color: rgb(214, 214, 214);
+  padding: 5px 10px;
+}
+.task-area button:hover {
+  background-color: rgb(235, 235, 235);
+  padding: 5px 10px;
+}
+#add-task-button {
+  border-radius: 50%;
+  padding: 10px 20px;
+  border: 1px solid green;
+  background-color: lightgreen;
+  text-align: center;
+}
+#add-task-button:hover {
+  background-color: rgb(152, 252, 152);
+}
 .projects-ul {
-    
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.projects-ul li {
+  display: flex;
+}
 
-  }
-  .projects-ul li{
-    display: flex;
-  }
-
-#remove-project-button{
+#remove-project-button {
   text-align: right;
   font-size: 24px;
   font-weight: bold;
-  
 }
-  #remove-project-button:hover{
-    background-color:rgb(214, 214, 214);
-  }
-  ul{
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-  }
-  /* li {
+#remove-project-button:hover {
+  background-color: rgb(214, 214, 214);
+}
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+/* li {
     margin-bottom: 16px;
   } */
 
-  a {
-    color: white;
-    text-decoration: none;
-    font-size: 24px;
-  }
+a {
+  color: white;
+  text-decoration: none;
+  font-size: 24px;
+}
 
 .footer {
   height: 60px;
@@ -233,7 +234,6 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  
 }
 
 .stable-sidebar {
@@ -241,12 +241,10 @@ body {
   flex-direction: column;
   gap: 5px;
   font-weight: bold;
-  
 }
 
-
 .projects-ul button,
-.stable-sidebar li button{
+.stable-sidebar li button {
   width: 100%;
   padding: 10px 20px;
   border-radius: 5px;
@@ -259,24 +257,23 @@ body {
   outline-color: currentcolor;
   text-align: left;
   font-size: 16px;
-  
 }
 .projects-ul button:hover,
-.stable-sidebar li button:hover{
+.stable-sidebar li button:hover {
   background-color: rgb(167, 167, 167);
 }
 .projects-ul button:active,
-.stable-sidebar li button:active{
+.stable-sidebar li button:active {
   background-color: rgb(126, 126, 126);
   font-weight: bolder;
 }
 .projects-ul button:focus,
-.stable-sidebar li button:focus{
+.stable-sidebar li button:focus {
   background-color: rgb(194, 194, 194);
   font-weight: bolder;
 }
-#add-project-button{
+#add-project-button {
   border: 1px solid green;
-  background-color:lightgreen;
+  background-color: lightgreen;
   text-align: center;
 }

@@ -1,36 +1,42 @@
-
-
-const toDoObjectFactory = (title, dueDate, priority, details="", project=null) => {
- 
-    const getValueFromToDoObject = privatePropertyName => {
-        switch(privatePropertyName){
-            case ("title"):
-              return title;
-            case ("dueDate"):
-                return dueDate;
-            case ("priority"):
-                return priority;
-            case ("details"):
-                return details;
-            case ("project"):
-                return project;
-            default:
-                return null;
-        }
+const toDoObjectFactory = (
+  title,
+  dueDate,
+  priority,
+  details = "",
+  project = null
+) => {
+  const getValueFromToDoObject = (privatePropertyName) => {
+    switch (privatePropertyName) {
+      case "title":
+        return title;
+      case "dueDate":
+        return dueDate;
+      case "priority":
+        return priority;
+      case "details":
+        return details;
+      case "project":
+        return project;
+      default:
+        return null;
     }
-      
+  };
 
-    const setPropertyValueOfToDoObject = (privatePropertyName, newValue) => {
-        let oldValue = getValueFromToDoObject(privatePropertyName);
-        oldValue = newValue;
-    }
-    
-    const toJSON =  function  toJSON() {
-        return {title, dueDate, priority, details, project};
-    }
+  const setPropertyValueOfToDoObject = (privatePropertyName, newValue) => {
+    newValue = getValueFromToDoObject(privatePropertyName);
+  };
 
-    return {getValueFromToDoObject, setPropertyValueOfToDoObject, toJSON};
-    
-}
+  const toJSON = function toJSON() {
+    return {
+      title,
+      dueDate,
+      priority,
+      details,
+      project,
+    };
+  };
 
-export {toDoObjectFactory};
+  return { getValueFromToDoObject, setPropertyValueOfToDoObject, toJSON };
+};
+
+export { toDoObjectFactory };

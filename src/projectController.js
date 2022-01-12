@@ -1,135 +1,147 @@
-import {ProjectObject} from "./projectObject.js";
-import format from 'date-fns/format';
-import isSameWeek from 'date-fns/isSameWeek';
-import parse from 'date-fns/parse';
-import isToday from 'date-fns/isToday';
-import {render} from './render.js';
+import isSameWeek from "date-fns/isSameWeek";
+import parse from "date-fns/parse";
+import isToday from "date-fns/isToday";
+import { render } from "./render.js";
 
 const projectController = (() => {
+  let allProjects = [];
 
-    let allProjects = [];
+  let currentProject = null;
 
-    let currentProject = null;
+  const getCurrentProject = () => currentProject;
 
-    const getCurrentProject = () => currentProject;
+  const getAllProjects = () => allProjects;
 
-    const getAllProjects = () => allProjects;
-    
-    const setCurrentProject = project => currentProject = project;
+  const setCurrentProject = (project) => {
+    currentProject = project;
+  };
 
-    const populateAllProjectsArr = (arr) => allProjects = arr;
+  const populateAllProjectsArr = (arr) => {
+    allProjects = arr;
+  };
 
+  function storeMyProjects() {
+    window.localStorage.setItem("user", JSON.stringify(allProjects));
+  }
+  const addProjectToProjectsArray = (project) => {
+    allProjects.push(project);
+    storeMyProjects();
+  };
 
-    const addProjectToProjectsArray = function(project) {
-        allProjects.push(project);
-        storeMyProjects();
-    };
+  const findIndexOfProject = (item) =>
+    allProjects.findIndex(
+      (project) => project.title.toLowerCase() === item.toLowerCase()
+    );
+  const findProject = (item) =>
+    allProjects.find((project) => project.getTitle() === item);
 
-    const findIndexOfProject = (item) => {
-       
-        return allProjects.findIndex(project => project.title.toLowerCase() === item.toLowerCase() );
-        
-    }
-    const findProject = (item) => {
+  const setActiveProjectAfterRemovalOfProject = (i) => {
+    i === 0
+      ? setCurrentProject(allProjects[i + 1])
+      : setCurrentProject(allProjects[i - 1]);
+  };
 
-        return allProjects.find(project => project.getTitle() === item);
-    }
-    const getProjectsDueThisWeek = () => {
-       let task = [];
-        for (const project of allProjects) {
-            for (const toDo of project.toDoObjects) {
-                
-                    if(isDueThisWeek(toDo)){
-                        task.push(toDo);
-                    }
-            }
+  const getProjectsDueThisWeek = () => {
+    const task = [];
+    for (const project of allProjects) {
+      for (const toDo of project.toDoObjects) {
+        if (isDueThisWeek(toDo)) {
+          task.push(toDo);
         }
+      }
+    }
     return task;
-    }
+  };
 
-       
-    function isDueThisWeek(toDoObject)  
-    {
-        let toDoDate = toDoObject.dueDate;
-        let parsed = parse(toDoDate, 'MM/dd/yyyy', new Date());
+  function isDueThisWeek(toDoObject) {
+    const toDoDate = toDoObject.dueDate;
+    const parsed = parse(toDoDate, "MM/dd/yyyy", new Date());
 
-        let d = new Date(2022, 0, 3);
-        return isSameWeek(parsed, d);
-        
-    }
+    const d = new Date(2022, 0, 3);
+    return isSameWeek(parsed, d);
+  }
 
+  const getProjectsDueToday = () => {
+    // let data =  getAllProjects().filter(project => project.toDoObjects
+    //                             .filter(x => isDueToday(x)));
+    // console.log(data);
+    // return data;
 
-    const getProjectsDueToday = () => {
-        // let data =  getAllProjects().filter(project => project.toDoObjects
-        //                             .filter(x => isDueToday(x)));
-        // console.log(data);
-        // return data;
-
-
-        let task = [];
-        for (const project of allProjects) {
-            for (const toDo of project.toDoObjects) {
-                
-                    if(isDueToday(toDo)){
-                        task.push(toDo);
-                    }
-            }
+    const task = [];
+    for (const project of allProjects) {
+      for (const toDo of project.toDoObjects) {
+        if (isDueToday(toDo)) {
+          task.push(toDo);
         }
-        return task;
-     }
-     
-     function isDueToday(toDoObject) {
-        let toDoDate = toDoObject.dueDate;
-        let parsed = parse(toDoDate, 'MM/dd/yyyy', new Date());
+      }
+    }
+    return task;
+  };
 
-        let d = new Date(2022, 0, 3);
-        let result = isToday(parsed, d);
-        return result;
-     }
+  function isDueToday(toDoObject) {
+    const toDoDate = toDoObject.dueDate;
+    const parsed = parse(toDoDate, "MM/dd/yyyy", new Date());
 
-    const removeProjectFromProjectsArray = index => {
-        allProjects.splice(index,1);
-        setActiveProjectAfterRemovalOfProject(index);
-        render.renderProjectsSideBar();
-        storeMyProjects();
-        render.renderToDoList(); 
+    const d = new Date(2022, 0, 3);
+    const result = isToday(parsed, d);
+    return result;
+  }
+
+  const removeProjectFromProjectsArray = (index) => {
+    allProjects.splice(index, 1);
+    setActiveProjectAfterRemovalOfProject(index);
+    render.renderProjectsSideBar();
+    storeMyProjects();
+    render.renderToDoList();
+  };
+
+  const removeToDoTaskFromProject = (e) => {
+    const projectName = e.target.parentElement.dataset.project;
+
+    const indexOfProject = findIndexOfProject(projectName);
+    const indexOfToDoObject = e.target.parentElement.dataset.taskIndex;
+    allProjects[indexOfProject].toDoObjects.splice(indexOfToDoObject, 1);
+
+    if (allProjects[indexOfProject].toDoObjects.length === 0) {
+      setActiveProjectAfterRemovalOfProject(indexOfProject);
+      removeProjectFromProjectsArray(indexOfProject);
+      render.renderProjectsSideBar();
     }
 
+    storeMyProjects();
 
-    const removeToDoTaskFromProject = e => {
-        
-       const projectName = e.target.parentElement.dataset.project;
-       const indexOfProject = findIndexOfProject(projectName);
-       const indexOfToDoObject = e.target.parentElement.dataset.taskIndex;
-       allProjects[indexOfProject].toDoObjects.splice(indexOfToDoObject,1);
-       if(allProjects[indexOfProject].toDoObjects.length === 0){
-           setActiveProjectAfterRemovalOfProject(indexOfProject);
-            removeProjectFromProjectsArray(indexOfProject);
-            render.renderProjectsSideBar();  
-       }    
+    render.renderToDoList();
+  };
 
-       storeMyProjects();
-       render.renderToDoList();
-    }
-    
-    const setActiveProjectAfterRemovalOfProject = (i) => {
-        i === 0 ? setCurrentProject(allProjects[i+1]) : setCurrentProject(allProjects[i-1]);
-    }
+  const editToDoObjectsArrayWithNewState = (
+    projectName,
+    taskIndex,
+    newStateToDoObject
+  ) => {
+    const projectIndex = findIndexOfProject(projectName);
+    allProjects[projectIndex].toDoObjects.splice(
+      taskIndex,
+      1,
+      newStateToDoObject
+    );
+    storeMyProjects();
+  };
 
-
-
-    const editToDoObjectsArrayWithNewState = function(projectName, taskIndex, newStateToDoObject){
-        const projectIndex = findIndexOfProject(projectName);
-        allProjects[projectIndex].toDoObjects.splice(taskIndex, 1, newStateToDoObject);
-        storeMyProjects();
-    }
-    function storeMyProjects() {
-        window.localStorage.setItem('user', JSON.stringify(allProjects))}
-
-    return {getCurrentProject, setCurrentProject, addProjectToArray: addProjectToProjectsArray,
-            removeProjectFromArray: removeProjectFromProjectsArray, findIndexOfProject,
-            getAllProjects, findProject, getProjectsDueThisWeek, getProjectsDueToday,removeToDoTaskFromProject,
-            populateAllProjectsArr, storeMyProjects, editToDoObjectsArrayWithNewState}
+  return {
+    getCurrentProject,
+    setCurrentProject,
+    addProjectToArray: addProjectToProjectsArray,
+    removeProjectFromArray: removeProjectFromProjectsArray,
+    findIndexOfProject,
+    getAllProjects,
+    findProject,
+    getProjectsDueThisWeek,
+    getProjectsDueToday,
+    removeToDoTaskFromProject,
+    populateAllProjectsArr,
+    storeMyProjects,
+    editToDoObjectsArrayWithNewState,
+  };
 })();
 
 export { projectController };

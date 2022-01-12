@@ -1,33 +1,29 @@
-
-
 const ProjectObject = (title) => {
-    
-    let toDoObjects = [];
+  const toDoObjects = [];
 
-    const getTitle = () => title;
+  const getTitle = () => title;
 
-    const getAllToDos = () => {
-        return toDoObjects;
-    }
+  const getAllToDos = () => toDoObjects;
 
-    //Unused func
-    const getToDoObject = (index) => toDoObjects[index];
+  // Unused func
+  const getToDoObject = (index) => toDoObjects[index];
 
-    const addToDoObjectToArray = objectToAdd => toDoObjects.push(objectToAdd);
-       
+  const addToDoObjectToArray = (objectToAdd) => toDoObjects.push(objectToAdd);
 
-    const findIndexOfToDoObject = (title) => {
-       
-        return toDoObjects.findIndex(element => element.title === title);
-        
-    }
-    const toJSON =  function  toJSON() {
-        return {title, toDoObjects};
-    }
-   
+  const findIndexOfToDoObject = (title) =>
+    toDoObjects.findIndex((element) => element.title === title);
+  const toJSON = function toJSON() {
+    return { title, toDoObjects };
+  };
 
-    return {toJSON, getTitle, getToDoObject, addToDoObjectToArray,  findIndexOfToDoObject, getAllToDos};
+  return {
+    toJSON,
+    getTitle,
+    getToDoObject,
+    addToDoObjectToArray,
+    findIndexOfToDoObject,
+    getAllToDos,
+  };
+};
 
-}
-
-export {ProjectObject};
+export { ProjectObject };
